@@ -3,13 +3,9 @@
 @section('title', 'Blog Posts')
 
 @section('content')
-
+{{--@each('posts.partials.post', $posts, 'post')--}}
 @forelse($posts as $key => $post)
-    @if($loop->even)
-        <div>{{ $key }}. {{ $post['title'] }}</div>
-    @else
-        <div style="background-color: silver">{{ $key }}. {{ $post['title'] }}</div>
-    @endif
+    @include('posts.partials.post')
 @empty
     No posts found!
 @endforelse
