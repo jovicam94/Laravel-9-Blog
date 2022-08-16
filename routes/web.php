@@ -25,17 +25,32 @@ Route::get('/contact', function () {
     return view('home.contact');
 })->name('home.contact');
 
-Route::get('/posts/{id}', function ($id) {
-    $posts = [
-      1 => [
-          'title' => 'Intro to Laravel',
-          'content' => 'This is a short intro to Laravel'
-      ],
-      2 => [
-          'title' => 'Intro to PHP',
-          'content' => 'This is a short intro to PHP'
-      ]
-    ];
+$posts = [
+    1 => [
+        'title' => 'Intro to Laravel',
+        'content' => 'This is a short intro to Laravel',
+        'is_new' => true,
+        'has_comments' => true
+    ],
+    2 => [
+        'title' => 'Intro to PHP',
+        'content' => 'This is a short intro to PHP',
+        'is_new' => false
+    ],
+    3 => [
+        'title' => 'Intro to Golang',
+        'content' => 'This is a short intro to Golang',
+        'is_new' => false
+    ]
+];
+
+Route::get('/posts', function () use ($posts) {
+    // compact($posts) === ['posts' => $posts]
+    return view('posts.index', ['posts' => $posts]);
+});
+
+
+Route::get('/posts/{id}', function ($id) use ($posts) {
 
     abort_if(!isset($posts[$id]), 404);
 
