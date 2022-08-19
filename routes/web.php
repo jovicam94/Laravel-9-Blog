@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +47,8 @@ $posts = [
 
 Route::get('/posts', function () use ($posts) {
     // compact($posts) === ['posts' => $posts]
+//    dd(request()->all());
+    dd(request()->input('page', 1));
     return view('posts.index', ['posts' => $posts]);
 });
 
@@ -59,12 +62,12 @@ Route::get('/posts/{id}', function ($id) use ($posts) {
 
 Route::get('/recent-posts/{days_ago?}', function ($days_ago = 20) {
     return 'Posts from '. $days_ago . ' days ago' ;
-})->name('posts.recent.index');
+})->name('posts.recent.index')->middleware('auth');
 
 
 Route::prefix('/fun')->name('fun.')->group(function () use($posts) {
 
-    Route::get('/responses', function () {
+    Route::get('/responses', function () use($posts) {
         return response($posts, 201)
             ->header('Content-Type', 'application/json')
             ->cookie('MY_COOKIE', 'Jovica Misirlic', 3600);
