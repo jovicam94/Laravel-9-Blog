@@ -5,18 +5,7 @@
 @section('content')
     <form action="{{ route('posts.store') }}" method="POST">
         @csrf
-        <div>
-            <input type="text" name="title" value="{{ old('title') }}">
-        </div>
-        @error('title')
-        <div>{{ $message }}</div>
-        @enderror
-        <div>
-            <textarea name="content">{{ old('content') }}</textarea>
-        </div>
-        @error('content')
-        <div>{{ $message }}</div>
-        @enderror
+        @include('posts.partials.form')
         <div><input type="submit" value="Create"></div>
 
     </form>
