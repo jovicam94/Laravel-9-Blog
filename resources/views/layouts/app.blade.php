@@ -8,6 +8,11 @@
     <title>Laravel app - @yield('title')</title>
 </head>
 <body>
+@if(session('status'))
+    <div style="background: red; color: white;">
+        {{session('status')}}
+    </div>
+@endif
     <div>
         @yield('content')
     </div>
