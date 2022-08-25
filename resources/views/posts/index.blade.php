@@ -7,7 +7,7 @@
 @forelse($posts as $key => $post)
     @include('posts.partials.post')
 @empty
-    No posts found!
+    No blog posts yet!
 @endforelse
 
 @endsection
