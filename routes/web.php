@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController, App\Http\Controllers\AboutController, App\Http\Controllers\PostsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +19,19 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Route::get('/', function () {
-    return view('home.index', []);
-})->name('home.index');
+//Route::get('/', function () {
+//    return view('home.index', []);
+//})->name('home.index');
+//
+//Route::get('/contact', function () {
+//    return view('home.contact');
+//})->name('home.contact');
 
-Route::get('/contact', function () {
-    return view('home.contact');
-})->name('home.contact');
+Route::get('/', [HomeController::class, 'home'])->name('home.index');
+Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
+
+Route::get('/single', AboutController::class);
+
 
 $posts = [
     1 => [
@@ -45,20 +52,22 @@ $posts = [
     ]
 ];
 
-Route::get('/posts', function () use ($posts) {
-    // compact($posts) === ['posts' => $posts]
-//    dd(request()->all());
-    dd(request()->input('page', 1));
-    return view('posts.index', ['posts' => $posts]);
-});
+Route::resource('posts', PostsController::class);
+
+//Route::get('/posts', function () use ($posts) {
+//    // compact($posts) === ['posts' => $posts]
+////    dd(request()->all());
+////    dd(request()->input('page', 1));
+//    return view('posts.index', ['posts' => $posts]);
+//});
 
 
-Route::get('/posts/{id}', function ($id) use ($posts) {
-
-    abort_if(!isset($posts[$id]), 404);
-
-    return view('posts.show', ['post' => $posts[$id]]);
-})->name('posts.show');
+//Route::get('/posts/{id}', function ($id) use ($posts) {
+//
+//    abort_if(!isset($posts[$id]), 404);
+//
+//    return view('posts.show', ['post' => $posts[$id]]);
+//})->name('posts.show');
 
 Route::get('/recent-posts/{days_ago?}', function ($days_ago = 20) {
     return 'Posts from '. $days_ago . ' days ago' ;
