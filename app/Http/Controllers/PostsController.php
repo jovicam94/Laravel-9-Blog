@@ -19,19 +19,21 @@ class PostsController extends Controller
     {
 
         // eager loading query
-        DB::enableQueryLog();
-        $posts = BlogPost::with('comments')->get();
+//        DB::enableQueryLog();
+//        $posts = BlogPost::with('comments')->get();
+//
+//        foreach ($posts as $post) {
+//            foreach ($post->comments as $comment) {
+//                echo $comment->content;
+//            }
+//        }
+//
+//        dd(DB::getQueryLog());
 
-        foreach ($posts as $post) {
-            foreach ($post->comments as $comment) {
-                echo $comment->content;
-            }
-        }
+        // comments_count
 
-        dd(DB::getQueryLog());
-
-
-        return view('posts.index', ['posts' => BlogPost::all()]);
+        return view('posts.index',
+            ['posts' => BlogPost::withCount('comments')->get()]);
     }
 
     /**
