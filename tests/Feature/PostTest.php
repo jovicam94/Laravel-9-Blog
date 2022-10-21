@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\BlogPost;
+use App\Models\Comment;
+use Database\Factories\CommentFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -50,8 +52,12 @@ class PostTest extends TestCase
         // Arrange
 
         $post = $this->create_dummy_blog_post();
-
+        Comment::factory()->count(4)->create([
+           'blog_post_id' => $post->id
+        ]);
         $response = $this->get('/posts');
+
+        $response->assertSeeText('4 comments');
 
     }
 
@@ -137,12 +143,14 @@ class PostTest extends TestCase
 
     private function create_dummy_blog_post(): BlogPost
     {
-        $post = new BlogPost();
-        $post->title = 'Title of blog post';
-        $post->content = 'Content of the blog post....';
-        $post->save();
+//        $post = new BlogPost();
+//        $post->title = 'Title of blog post';
+//        $post->content = 'Content of the blog post....';
+//        $post->save();
 
-        return $post;
+        return BlogPost::factory()->new_title_content_state()->create();
+
+//        return $post;
 
     }
 }
