@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController, App\Http\Controllers\AboutController, App\Http\Controllers\PostsController;
 
@@ -98,10 +99,12 @@ Route::prefix('/fun')->name('fun.')->group(function () use($posts) {
         return redirect()->away('https://google.com');
     })->name('away');
 
-    Route::get('/json', function () use($posts) {
-        return response()->json($posts);
-    })->name('away');
+//    Route::get('/json', function () use($posts) {
+//        return response()->json($posts);
+//    })->name('away');
 
 });
+
+Auth::routes();
 
 
