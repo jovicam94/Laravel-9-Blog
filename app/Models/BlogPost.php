@@ -14,8 +14,14 @@ class BlogPost extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Models\Comment');
+        return $this->hasMany(Comment::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     use HasFactory;
 
     public static function boot()
