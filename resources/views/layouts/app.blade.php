@@ -24,7 +24,7 @@
     <h5 class="my-0 mr-md-auto font-weight-normal text-muted">Laravel App</h5>
     <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark text-decoration-none" href="{{ route('home.index') }}">Home</a>
-        <a class="p-2 text-dark text-decoration-none" href="{{ route('home.contact') }}">Contact</a>
+        <a class="p-2 text-dark text-decoration-none" href="{{ route('contact') }}">Contact</a>
         <a class="p-2 text-dark text-decoration-none" href="{{ route('posts.index') }}">Blog Posts</a>
         <a class="p-2 text-dark text-decoration-none" href="{{ route('posts.create') }}">Add Blog Post</a>
 
