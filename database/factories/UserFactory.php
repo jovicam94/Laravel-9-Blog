@@ -45,7 +45,8 @@ class UserFactory extends Factory
         return $this->state(function () {
             return [
                 'name' => 'John Doe',
-                'email' => 'john@laravel.test'
+                'email' => 'john@laravel.test',
+                'is_admin' => true
             ];
         });
     }
