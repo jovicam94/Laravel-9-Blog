@@ -142,7 +142,11 @@ class PostTest extends TestCase
             ->assertSessionHas('status');
 
         $this->assertEquals(session('status'), 'Blog post was deleted!');
-        $this->assertDatabaseMissing('blog_posts', $post->toArray());
+//        $this->assertDatabaseMissing('blog_posts', $post->toArray());
+        $this->assertSoftDeleted('blog_posts', [
+            'title' => 'Title of blog post',
+            'content' => 'Content of the blog post....'
+        ]);
     }
 
     private function create_dummy_blog_post(): BlogPost
