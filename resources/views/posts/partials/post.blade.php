@@ -1,10 +1,11 @@
 <h3>
     <a class="text-decoration-none" href="{{ route('posts.show', ['post' => $post->id]) }}">{{ $post->title }}</a>
 </h3>
-<p class="text-muted">
-    Added {{ $post->created_at->diffForHumans() }}
-    by {{ $post->user->name }}
-</p>
+{{--<p class="text-muted">--}}
+{{--    Added {{ $post->created_at->diffForHumans() }}--}}
+{{--    by {{ $post->user->name }}--}}
+{{--</p>--}}
+<x-updated :date="$post->created_at" :name="$post->user->name"/>
 
 @if($post->comments_count)
     <p>{{ $post->comments_count }} comments</p>
