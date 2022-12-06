@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row">
             <x-card title="Most commented" subtitle="What people are currently talking about"
-                    :items="$most_commented->pluck('title')"/>
+                    :items="$most_commented"/>
             </div>
             <div class="row mt-4">
                 <x-card title="Most Active" subtitle="Users with most posts written"

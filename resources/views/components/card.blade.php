@@ -8,7 +8,11 @@
     <ul class="list-group list-group-flush">
         @foreach($items as $item)
             <li class="list-group-item">
-                {{ $item }}
+                @if($title == "Most commented")
+                    <a class="text-decoration-none" href="{{ route('posts.show', ['post' => $item->id]) }}">{{ $item->title }}</a>
+                @else
+                    {{ $item }}
+                @endif
             </li>
         @endforeach
     </ul>
