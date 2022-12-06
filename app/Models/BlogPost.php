@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 
 class BlogPost extends Model
 {
@@ -47,6 +48,10 @@ class BlogPost extends Model
 
         static::deleting(function (BlogPost $blogPost) {
             $blogPost->comments()->delete();
+        });
+
+        static::updating(function (BlogPost $blog_post) {
+            Cache::forget("blog-post-{$blog_post->id}");
         });
 
         static::restoring(function (BlogPost $blogPost) {
