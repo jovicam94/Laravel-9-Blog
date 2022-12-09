@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostTagController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController, App\Http\Controllers\PostsController;
@@ -16,11 +17,17 @@ use App\Http\Controllers\HomeController, App\Http\Controllers\PostsController;
 */
 
 
-Route::get('/', [HomeController::class, 'home'])->name('home.index');
-Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
-Route::get('/secret', [HomeController::class, 'secret'])->name('secret')->middleware('can:home.secret');
+Route::get('/', [HomeController::class, 'home'])
+    ->name('home.index');
+Route::get('/contact', [HomeController::class, 'contact'])
+    ->name('contact');
+Route::get('/secret', [HomeController::class, 'secret'])
+    ->name('secret')
+    ->middleware('can:home.secret');
 
 Route::resource('posts', PostsController::class);
+Route::get('/posts/tag/{id}', [PostTagController::class, 'index'])
+    ->name('posts.tag.index');
 
 Auth::routes();
 
