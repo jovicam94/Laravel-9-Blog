@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Laravel app - @yield('title')</title>
     <!-- Scripts -->
-{{--    <script src="{{ asset('js/app.js') }}" defer></script>--}}
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -15,8 +16,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Styles -->
-    {{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
-    @vite(['resources/js/app.js'])
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('sass/app.scss') }}" rel="stylesheet">
+{{--    @vite(['resources/css/app.css','resources/js/app.js'])--}}
 
 </head>
 <body>
