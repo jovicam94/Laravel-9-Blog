@@ -5,10 +5,14 @@
     <a class="text-decoration-none {{ $post->trashed() ? 'text-muted' : '' }}" href="{{ route('posts.show', ['post' => $post->id]) }}">{{ $post->title }}</a>
 </h3>
 
-<x-updated :date="$post->created_at" :name="$post->user->name"/>
 @if($post->trashed())
     </del>
 @endif
+
+<x-updated :date="$post->created_at" :name="$post->user->name"/>
+
+<x-tags :tags="$post->tags" />
+
 
 @if($post->comments_count)
     <p>{{ $post->comments_count }} comments</p>
