@@ -29,7 +29,7 @@ class PostsController extends Controller
     {
         return view('posts.index',
             [
-                'posts' => BlogPost::latest()->withCount('comments')->with('user')->with('tags')->get()
+                'posts' => BlogPost::latestWithRelations()->get()
             ]
         );
     }
@@ -60,7 +60,7 @@ class PostsController extends Controller
         $post = BlogPost::create($validated);
 
 
-        $request->session()->flash('status', 'The blog post was created!');
+        $request->session()->flash('create', 'The blog post was created!');
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
@@ -78,7 +78,8 @@ class PostsController extends Controller
 //        return view('posts.show', ['post' => BlogPost::findOrFail($id)]);
 
         $blog_posts = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 60, function () use($id) {
-            return BlogPost::with('comments')->with('tags')->with('user')->findOrFail($id);
+            return BlogPost::with('comments', 'tags', 'user')
+                ->findOrFail($id);
         });
 
         $session_id = session()->getId();
@@ -166,7 +167,7 @@ class PostsController extends Controller
         $post->fill($validated);
         $post->save();
 
-        $request->session()->flash('status', 'Blog post was updated!');
+        $request->session()->flash('update', 'Blog post was updated!');
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
@@ -183,7 +184,7 @@ class PostsController extends Controller
         $this->authorize('delete', $post);
         $post->delete();
 
-        session()->flash('status', 'Blog post was deleted!');
+        session()->flash('delete', 'Blog post was deleted!');
 
         return redirect()->route('posts.index');
     }
