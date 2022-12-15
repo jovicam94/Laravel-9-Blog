@@ -39,4 +39,15 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function john_doe_state()
+    {
+        return $this->state(function () {
+            return [
+                'name' => 'John Doe',
+                'email' => 'john@laravel.test',
+                'is_admin' => true
+            ];
+        });
+    }
 }
