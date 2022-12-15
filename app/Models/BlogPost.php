@@ -41,6 +41,14 @@ class BlogPost extends Model
         return $query->withCount('comments')->orderBy('comments_count', 'desc');
     }
 
+    public function scopeLatestWithRelations(Builder $query)
+    {
+        return $query->latest()
+            ->withCount('comments')
+            ->with('user')
+            ->with('tags');
+    }
+
     use HasFactory;
 
     public static function boot()
@@ -51,12 +59,13 @@ class BlogPost extends Model
 
         static::addGlobalScope(new LatestScope);
 
-        static::deleting(function (BlogPost $blogPost) {
-            $blogPost->comments()->delete();
+        static::deleting(function (BlogPost $blog_post) {
+            $blog_post->comments()->delete();
+            Cache::tags(['blog-post'])->forget("blog-post-{$blog_post->id}");
         });
 
         static::updating(function (BlogPost $blog_post) {
-            Cache::forget("blog-post-{$blog_post->id}");
+            Cache::tags(['blog-post'])->forget("blog-post-{$blog_post->id}");
         });
 
         static::restoring(function (BlogPost $blogPost) {

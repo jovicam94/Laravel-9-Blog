@@ -3,7 +3,8 @@
 use App\Http\Controllers\PostTagController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController, App\Http\Controllers\PostsController;
+use App\Http\Controllers\HomeController, App\Http\Controllers\PostsController,
+    App\Http\Controllers\PostCommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,8 @@ Route::get('/secret', [HomeController::class, 'secret'])
 Route::resource('posts', PostsController::class);
 Route::get('/posts/tag/{id}', [PostTagController::class, 'index'])
     ->name('posts.tag.index');
+
+Route::resource('posts.comments', PostCommentController::class)->only(['store']);
 
 Auth::routes();
 

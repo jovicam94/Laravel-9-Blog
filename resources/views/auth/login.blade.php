@@ -7,21 +7,13 @@
             <label>E-mail</label>
             <input name="email" value="{{ old('email') }}" type="text" required
                    class="form-control{{ $errors->has('email') ? ' is-invalid': '' }}">
-            @error('email')
-            <span class="invalid-feedback">
-                        <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+            <x-error name="email" />
         </div>
         <div class="form-group">
             <label>Password</label>
             <input name="password" type="password" required
                    class="form-control{{ $errors->has('password') ? ' is-invalid': '' }}">
-            @error('password')
-            <span class="invalid-feedback">
-                            <strong>{{ $message }}</strong>
-                </span>
-            @enderror
+            <x-error name="password" />
         </div>
 
         <div class="form-group">
