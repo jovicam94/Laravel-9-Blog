@@ -5,7 +5,13 @@
 @section('content')
     <div class="row">
         <div class="col-8">
-        <h1>
+            @if($post->image)
+                <div style="background-image: url('{{ $post->image->url() }}');
+             min-height: 500px; color: white; text-align: center;">
+                    <h1>
+            @else
+                <h1>
+            @endif
             {{ $post->title }}
             @php
                 now()->diffInMinutes($post->created_at) < 60 ? $show=1 : $show=0;
@@ -13,8 +19,15 @@
 
             <x-badge type="success" :show="$show" />
 
-        </h1>
+            @if($post->image)
+                    </h1>
+                </div>
+            @else
+                </h1>
+            @endif
         <p>{{ $post->content }}</p>
+
+{{--        <img src="{{ $post->image->url() }}"> --}}
         <x-updated :date="$post->created_at" :name="$post->user->name"/>
         <x-updated :date="$post->updated_at" type="Updated "/>
 
