@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostTagController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController, App\Http\Controllers\PostsController,
@@ -31,6 +32,7 @@ Route::get('/posts/tag/{id}', [PostTagController::class, 'index'])
     ->name('posts.tag.index');
 
 Route::resource('posts.comments', PostCommentController::class)->only(['store']);
+Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
 
 Auth::routes();
 
