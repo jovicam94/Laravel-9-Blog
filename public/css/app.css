@@ -9325,6 +9325,12 @@ progress {
   }
 }
 .badge-lg {
-  font-size: 1rem;
+    font-size: 1.0rem;
 }
+
+.avatar {
+    width: 128px;
+    height: 128px;
+}
+
 
