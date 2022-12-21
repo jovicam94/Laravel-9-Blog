@@ -9,7 +9,7 @@
     </del>
 @endif
 
-<x-updated :date="$post->created_at" :name="$post->user->name"/>
+<x-updated :date="$post->created_at" :name="$post->user->name" :user="$post->user->id"/>
 
 <x-tags :tags="$post->tags" />
 
