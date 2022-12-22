@@ -13,7 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('blog_post_tag');
         Schema::create('blog_post_tag', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('blog_post_id')->index();
