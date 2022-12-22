@@ -49,11 +49,15 @@ class PostTest extends TestCase
 
     public function test_see_1_blog_post_with_comments()
     {
+        $user = $this->user();
+
         // Arrange
 
         $post = $this->create_dummy_blog_post();
         Comment::factory()->count(4)->create([
-           'blog_post_id' => $post->id
+            'commentable_id' => $post->id,
+            'commentable_type' => BlogPost::class,
+            'user_id' => $user->id
         ]);
         $response = $this->get('/posts');
 
@@ -71,9 +75,9 @@ class PostTest extends TestCase
         $this->actingAs($this->user())
             ->post('/posts', $params)
             ->assertStatus(302)
-            ->assertSessionHas('status');
+            ->assertSessionHas('create');
 
-        $this->assertEquals(session('status'), 'The blog post was created!');
+        $this->assertEquals(session('create'), 'The blog post was created!');
     }
 
     public function test_store_fail()
@@ -119,9 +123,9 @@ class PostTest extends TestCase
         $this->actingAs($user)
             ->put("/posts/{$post->id}", $params)
             ->assertStatus(302)
-            ->assertSessionHas('status');
+            ->assertSessionHas('update');
 
-        $this->assertEquals(session('status'), 'Blog post was updated!');
+        $this->assertEquals(session('update'), 'Blog post was updated!');
 
         $this->assertDatabaseMissing('blog_posts', $post->toArray());
         $this->assertDatabaseHas('blog_posts', [
@@ -141,9 +145,9 @@ class PostTest extends TestCase
         $this->actingAs($user)
             ->delete("/posts/{$post->id}")
             ->assertStatus(302)
-            ->assertSessionHas('status');
+            ->assertSessionHas('delete');
 
-        $this->assertEquals(session('status'), 'Blog post was deleted!');
+        $this->assertEquals(session('delete'), 'Blog post was deleted!');
 //        $this->assertDatabaseMissing('blog_posts', $post->toArray());
         $this->assertSoftDeleted('blog_posts', [
             'title' => 'Title of blog post',
