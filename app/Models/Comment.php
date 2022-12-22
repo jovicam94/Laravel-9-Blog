@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\LatestScope;
+use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ class Comment extends Model
 {
 
 
-    use SoftDeletes;
+    use SoftDeletes, Taggable;
 
     protected $fillable = ['user_id', 'content'];
 
