@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Updated extends Component
+class CommentList extends Component
 {
     /**
      * Create a new component instance.
@@ -12,17 +12,11 @@ class Updated extends Component
      * @return void
      */
 
-    public $date;
-    public $name;
-    public $type;
-    public $user;
+    public $comments;
 
-    public function __construct($date, $name=null, $type=null, $user=null)
+    public function __construct($comments)
     {
-        $this->date = $date;
-        $this->name = $name;
-        $this->type = $type;
-        $this->user = $user;
+        $this->comments = $comments;
     }
 
     /**
@@ -32,6 +26,6 @@ class Updated extends Component
      */
     public function render()
     {
-        return view('components.updated');
+        return view('components.comment-list');
     }
 }
