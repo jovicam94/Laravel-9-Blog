@@ -8,7 +8,7 @@
         @method('PATCH')
         <div class="row">
             <div class="col-4">
-                <img src="{{ $user->image ? $user->image->url() : Storage::url('/avatars/no_picture_user.png' }}"
+                <img src="{{ $user->image ? $user->image->url() : Storage::url('/avatars/no_picture_user.png') }}"
                      class="img-thumbnail avatar">
                 <div class="card mt-4">
                     <div class="card-body">

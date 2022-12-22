@@ -25,28 +25,22 @@
             @else
                 </h1>
             @endif
-        <p>{{ $post->content }}</p>
+            <p>{{ $post->content }}</p>
 
-{{--        <img src="{{ $post->image->url() }}"> --}}
-        <x-updated :date="$post->created_at" :name="$post->user->name" :user="$post->user->id "/>
-        <x-updated :date="$post->updated_at" type="Updated " :user="$post->user->name"/>
 
-        <x-tags :tags="$post->tags" />
+            <x-updated :date="$post->created_at" :name="$post->user->name" :user="$post->user->id "/>
+            <x-updated :date="$post->updated_at" type="Updated " :user="$post->user->name"/>
 
-        <p>Currently read by {{ $counter }} people</p>
+            <x-tags :tags="$post->tags" />
 
-        <h4>Comments</h4>
+            <p>Currently read by {{ $counter }} people</p>
 
-    @include('comments._form')
+            <h4>Comments</h4>
 
-    @forelse($post->comments as $comment)
-        <p>
-            {{ $comment->content }}
-        </p>
-        <x-updated :date="$comment->created_at" :name="$comment->user->name" :user="$comment->user->id" />
-    @empty
-        <p>No comments yet!</p>
-    @endforelse
+            <x-comment-form :route="route('posts.comments.store', ['post' => $post->id])"/>
+
+            <x-comment-list  :comments="$post->comments" />
+
         </div>
     @include('posts.partials.activity')
     </div>

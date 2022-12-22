@@ -18,9 +18,9 @@ class Comment extends Model
 
 
     // blog_post_id
-    public function blog_post()
+    public function commentable()
     {
-        return $this->belongsTo('App\Models\BlogPost');
+        return $this->morphTo(BlogPost::class);
     }
 
     public function user()
@@ -35,8 +35,11 @@ class Comment extends Model
         parent::boot();
 
         static::creating(function (Comment $comment) {
-            Cache::tags(['blog-post'])->forget("blog-post-{$comment->blog_post_id}");
-            Cache::tags(['blog-post'])->forget("mostCommented");
+            if ($comment->commentable_type === BlogPost::class)
+            {
+                Cache::tags(['blog-post'])->forget("blog-post-{$comment->commentable_id}");
+                Cache::tags(['blog-post'])->forget("mostCommented");
+            }
         });
 
 //        static::addGlobalScope(new LatestScope);
