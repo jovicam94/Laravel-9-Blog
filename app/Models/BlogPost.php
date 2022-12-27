@@ -7,6 +7,7 @@ use App\Scopes\LatestScope;
 use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
@@ -17,9 +18,10 @@ class BlogPost extends Model
 
     use SoftDeletes, Taggable;
 
-    public function comments()
+    public function comments() : MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable')->latest();
+        return $this->morphMany(Comment::class, 'commentable', 'commentable_type', 'commentable_id')
+            ->latest();
     }
 
     public function user()
