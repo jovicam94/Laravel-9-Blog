@@ -38,7 +38,8 @@ Route::resource('users', UserController::class)->only(['show', 'edit', 'update']
 
 Route::get('mailable', function () {
     $comment = \App\Models\Comment::find(1);
-    return new \App\Mail\CommentPostedMarkdown($comment);
+    $user = $comment->user;
+    return new \App\Mail\CommentPostedOnPostWatched($comment, $user);
 });
 
 Auth::routes();
