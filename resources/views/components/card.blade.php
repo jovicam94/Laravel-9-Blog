@@ -8,7 +8,7 @@
     <ul class="list-group list-group-flush">
         @foreach($items as $item)
             <li class="list-group-item">
-                @if($title == "Most commented")
+                @if($title == "Most commented" or $title == "Am meisten kommentiert" or $title == "Más comentado")
                     <a class="text-decoration-none" href="{{ route('posts.show', ['post' => $item->id]) }}">{{ $item->title }}</a>
                 @else
                     {{ $item->name }}
