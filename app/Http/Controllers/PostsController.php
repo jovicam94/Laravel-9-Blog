@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\CounterContract;
+use App\Events\BlogPostPosted;
+use App\Facades\CounterFacade;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use App\Models\Image;
@@ -19,6 +22,7 @@ class PostsController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('locale');
     }
 
 
@@ -69,7 +73,9 @@ class PostsController extends Controller
             );
         }
 
-        $request->session()->flash('create', 'The blog post was created!');
+        event(new BlogPostPosted($post));
+
+        $request->session()->flash('create', __('Blog post created'));
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
@@ -91,46 +97,9 @@ class PostsController extends Controller
                 ->findOrFail($id);
         });
 
-        $session_id = session()->getId();
-        $counter_key = "blog-post-{$id}-counter";
-        $users_key = "blog-post-{$id}-users";
-
-        $users = Cache::tags(['blog-post'])->get($users_key, []);
-        $users_update = [];
-        $difference = 0;
-
-        foreach ($users as $session => $last_visit)
-        {
-            if (now()->diffInMinutes($last_visit) >= 1)
-            {
-                $difference--;
-            } else
-            {
-                $users_update[$session] = $last_visit;
-            }
-        }
-
-        if (!array_key_exists($session_id, $users) or now()->diffInMinutes($users[$session_id]) >= 1)
-        {
-            $difference++;
-        }
-
-        $users_update[$session_id] = now();
-        Cache::tags(['blog-post'])->forever($users_key, $users_update);
-
-        if (!Cache::tags(['blog-post'])->has($counter_key))
-        {
-            Cache::tags(['blog-post'])->forever($counter_key, 1);
-        } else
-        {
-            Cache::tags(['blog-post'])->increment($counter_key, $difference);
-        }
-
-        $counter = Cache::tags(['blog-post'])->get($counter_key);
-
         return view('posts.show', [
             'post' => $blog_posts,
-            'counter' => $counter,
+            'counter' => CounterFacade::increment("blog-post-{$id}", ['blog-post']),
         ]);
 
     }
@@ -194,7 +163,7 @@ class PostsController extends Controller
         }
             $post->save();
 
-        $request->session()->flash('update', 'Blog post was updated!');
+        $request->session()->flash('update', __('Blog post updated'));
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
@@ -211,7 +180,7 @@ class PostsController extends Controller
         $this->authorize('delete', $post);
         $post->delete();
 
-        session()->flash('delete', 'Blog post was deleted!');
+        session()->flash('delete', __('Blog post deleted'));
 
         return redirect()->route('posts.index');
     }

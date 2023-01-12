@@ -1,10 +1,14 @@
 <p class="text-muted">
-    {{ $type ?? "Added " }} {{ $date->diffForHumans() }}
+    @if($type == "Updated ")
+        {{ __('Updated') }} {{ $date->diffForHumans() }}
+    @else
+        {{ __('Added') }} {{ $date->diffForHumans() }}
+    @endif
     @if(isset($name))
         @if(isset($user))
-            by <a class="text-decoration-none" href="{{ route('users.show', ['user' => $user]) }}">{{ $name }}</a>
+            {{ __('by') }} <a class="text-decoration-none" href="{{ route('users.show', ['user' => $user]) }}">{{ $name }}</a>
         @else
-            by {{ $name }}
+            {{ __('by') }} {{ $name }}
         @endif
     @endif
 </p>

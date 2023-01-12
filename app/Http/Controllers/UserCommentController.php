@@ -20,7 +20,7 @@ class UserCommentController extends Controller
             'user_id' => $request->user()->id
         ]);
 
-        $request->session()->flash('create', 'Comment was created.');
+        $request->session()->flash('create', __('Comment created'));
 
         return redirect()->back();
     }

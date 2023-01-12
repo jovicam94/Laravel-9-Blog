@@ -7,6 +7,7 @@ use App\Scopes\LatestScope;
 use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
@@ -17,9 +18,10 @@ class BlogPost extends Model
 
     use SoftDeletes, Taggable;
 
-    public function comments()
+    public function comments() : MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable')->latest();
+        return $this->morphMany(Comment::class, 'commentable', 'commentable_type', 'commentable_id')
+            ->latest();
     }
 
     public function user()
@@ -56,21 +58,11 @@ class BlogPost extends Model
     {
         static::addGlobalScope(new DeletedAdminScope);
 
-        parent::boot();
-
         static::addGlobalScope(new LatestScope);
 
-        static::deleting(function (BlogPost $blog_post) {
-            $blog_post->comments()->delete();
-            Cache::tags(['blog-post'])->forget("blog-post-{$blog_post->id}");
-        });
+        parent::boot();
 
-        static::updating(function (BlogPost $blog_post) {
-            Cache::tags(['blog-post'])->forget("blog-post-{$blog_post->id}");
-        });
 
-        static::restoring(function (BlogPost $blogPost) {
-            $blogPost->comments()->restore();
-        });
+
     }
 }
