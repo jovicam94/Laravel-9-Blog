@@ -12,7 +12,7 @@
                      class="img-thumbnail avatar">
                 <div class="card mt-4">
                     <div class="card-body">
-                        <h6>Upload a different photo</h6>
+                        <h6>{{ __('Upload a different photo') }}</h6>
                         <input type="file" class="form-control-file" name="avatar">
                     </div>
                     <x-error name="avatar"/>
@@ -23,6 +23,17 @@
                     <label for="name">Name</label>
                     <input type="text" class="form-control" name="name" value="{{ $user->name }}">
                     <x-error name="name"/>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="name">{{__('Language')}}</label>
+                    <select class="form-control" name="locale">
+                        @foreach(\App\Models\User::LOCALES as $locale => $label)
+                            <option value="{{ $locale }}" {{ $user->locale != $locale ?: 'selected'}}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <br>
                 <div class="form-group">
