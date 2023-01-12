@@ -20,6 +20,7 @@ class PostsController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('locale');
     }
 
 
@@ -72,7 +73,7 @@ class PostsController extends Controller
 
         event(new BlogPostPosted($post));
 
-        $request->session()->flash('create', 'The blog post was created!');
+        $request->session()->flash('create', __('Blog post created'));
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
@@ -197,7 +198,7 @@ class PostsController extends Controller
         }
             $post->save();
 
-        $request->session()->flash('update', 'Blog post was updated!');
+        $request->session()->flash('update', __('Blog post updated'));
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
@@ -214,7 +215,7 @@ class PostsController extends Controller
         $this->authorize('delete', $post);
         $post->delete();
 
-        session()->flash('delete', 'Blog post was deleted!');
+        session()->flash('delete', __('Blog post deleted'));
 
         return redirect()->route('posts.index');
     }
