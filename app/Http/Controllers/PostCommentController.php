@@ -25,7 +25,7 @@ class PostCommentController extends Controller
 
         event(new CommentPosted($comment));
 
-        $request->session()->flash('create', 'Comment was created.');
+        $request->session()->flash('create', __('Comment created'));
 
         return redirect()->back();
     }

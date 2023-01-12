@@ -92,11 +92,13 @@ class UserController extends Controller
             }
         }
 
+        $user->locale = $request->get('locale');
+
         $user->name = $request->input('name');
         $user->save();
 
 
-//        $request->session()->flash('update', 'Blog post was updated!');
+        $request->session()->flash('update', __('Profile updated'));
 //        return redirect()->route('users.edit', ['user' => $user->id]);
 
         return redirect()

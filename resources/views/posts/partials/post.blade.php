@@ -15,14 +15,14 @@
 
 
 @if($post->comments_count)
-    <p>{{ $post->comments_count }} comments</p>
+    {{ trans_choice('messages.comments', $post->comments_count) }}
 @else
-    <p>No comments yet!</p>
+    {{ trans_choice('messages.comments', 0) }}
 @endif
 
 <div class="mb-3">
     @can('update', $post)
-        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit</a>
+        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-warning">{{ __('Edit') }}</a>
     @endcan
 {{--    @cannot('delete', $post)--}}
 {{--        <p>You can't delete this post</p>--}}
@@ -33,7 +33,7 @@
                 <form class="d-inline" action="{{ route('posts.destroy', ['post' => $post->id]) }}", method="POST">
                     @csrf
                     @method('DELETE')
-                    <input type="submit" value="Delete!" class="btn btn-primary">
+                    <input type="submit" value="{{__('Delete!')}}" class="btn btn-danger">
                 </form>
             @endcan
         @endif
