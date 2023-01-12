@@ -37,7 +37,7 @@
                 </div>
                 <br>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Save changes">
+                    <input type="submit" class="btn btn-primary" value="{{ __('Save changes') }}">
                 </div>
             </div>
         </div>
