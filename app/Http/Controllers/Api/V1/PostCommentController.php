@@ -15,7 +15,7 @@ class PostCommentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->only(['index', 'store', 'update', 'destroy']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
     }
 
     public function index(BlogPost $post, Request $request)
