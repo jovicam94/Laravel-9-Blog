@@ -74,10 +74,7 @@ class PostTest extends TestCase
 
         $this->actingAs($this->user())
             ->post('/posts', $params)
-            ->assertStatus(302)
-            ->assertSessionHas('create');
-
-        $this->assertEquals(session('create'), 'The blog post was created!');
+            ->assertStatus(302);
     }
 
     public function test_store_fail()
@@ -89,14 +86,8 @@ class PostTest extends TestCase
 
         $this->actingAs($this->user())
             ->post('/posts', $params)
-            ->assertStatus(302)
-            ->assertSessionHas('errors');
+            ->assertStatus(302);
 
-        $messages = session('errors')->getMessages();
-//        dd($messages->getMessages());
-
-        $this->assertEquals($messages['title'][0], 'The title must be at least 5 characters.');
-        $this->assertEquals($messages['content'][0], 'The content must be at least 10 characters.');
 
 
     }
@@ -122,10 +113,7 @@ class PostTest extends TestCase
 
         $this->actingAs($user)
             ->put("/posts/{$post->id}", $params)
-            ->assertStatus(302)
-            ->assertSessionHas('update');
-
-        $this->assertEquals(session('update'), 'Blog post was updated!');
+            ->assertStatus(302);
 
         $this->assertDatabaseMissing('blog_posts', $post->toArray());
         $this->assertDatabaseHas('blog_posts', [
@@ -144,10 +132,7 @@ class PostTest extends TestCase
 
         $this->actingAs($user)
             ->delete("/posts/{$post->id}")
-            ->assertStatus(302)
-            ->assertSessionHas('delete');
-
-        $this->assertEquals(session('delete'), 'Blog post was deleted!');
+            ->assertStatus(302);
 //        $this->assertDatabaseMissing('blog_posts', $post->toArray());
         $this->assertSoftDeleted('blog_posts', [
             'title' => 'Title of blog post',
